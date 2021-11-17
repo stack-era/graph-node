@@ -17,7 +17,7 @@ services:
       postgres_pass: let-me-in
       postgres_db: graph-node
       ipfs: 'ipfs:5001'
-      ethereum: 'mainnet:http://host.docker.internal:8545'
+      ethereum: 'mainnet:https://speedy-nodes-nyc.moralis.io/36a846a29bcbdf63e886cdcf/eth/mainnet/archive'
       GRAPH_LOG: info
   ipfs:
     image: ipfs/go-ipfs:v0.4.23
@@ -26,10 +26,10 @@ services:
     volumes:
       - ./data/ipfs:/data/ipfs
   postgres:
-    image: postgres
+    image: timescale/timescaledb:latest-pg12
     ports:
       - '5432:5432'
-    command: ["postgres", "-cshared_preload_libraries=pg_stat_statements"]
+    command: ["postgres", "-cshared_preload_libraries=pg_stat_statements", "-cshared_preload_libraries=timescaledb"]
     environment:
       POSTGRES_USER: graph-node
       POSTGRES_PASSWORD: let-me-in
